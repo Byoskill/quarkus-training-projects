@@ -8,8 +8,6 @@ import jakarta.ws.rs.core.MediaType;
 @Path("/motd")
 public class GreetingResource {
 
-
-
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String motd() {
