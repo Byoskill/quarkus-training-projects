@@ -19,7 +19,7 @@ public class HomePage {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public TemplateInstance get() {
-        return index.instance();  
+        return index.data("motd", "Bienvenue sur notre boutique");  
     }
 
 }
