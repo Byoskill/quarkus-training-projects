@@ -3,6 +3,6 @@ package com.byoskill;
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-class GreetingResourceIT extends GreetingResourceTest {
+class HomePageIT extends HomePageTest {
     // Execute the same tests but in packaged mode.
 }
