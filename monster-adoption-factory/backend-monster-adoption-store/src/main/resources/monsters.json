@@ -1,0 +1,74 @@
+{
+  "monsters": [
+    {
+      "name": "Godzilla",
+      "description": "Un lézard géant et radioactif qui ravage les villes.",
+      "price": 1000000,
+      "age": 65,
+      "location": "Tokyo, Japon"
+    },
+    {
+      "name": "Dracula",
+      "description": "Un vampire immortel qui se nourrit du sang des vivants.",
+      "price": 50000,
+      "age": 589,
+      "location": "Transylvanie, Roumanie"
+    },
+    {
+      "name": "Frankenstein's Monster",
+      "description": "Une créature assemblée à partir de parties de cadavres humains.",
+      "price": 75000,
+      "age": 210,
+      "location": "Genève, Suisse"
+    },
+    {
+      "name": "Medusa",
+      "description": "Une femme avec des serpents vivants pour cheveux, capable de transformer en pierre quiconque la regarde dans les yeux.",
+      "price": 90000,
+      "age": 276,
+      "location": "Grèce antique"
+    },
+    {
+      "name": "Bigfoot",
+      "description": "Une créature simiesque géante, souvent aperçue dans les forêts sauvages.",
+      "price": 80000,
+      "age": 150,
+      "location": "Forêts du Nord-Ouest Pacifique, États-Unis"
+    },
+    {
+      "name": "Kraken",
+      "description": "Un énorme calmar ou pieuvre légendaire qui attaque les navires.",
+      "price": 120000,
+      "age": "Inconnu",
+      "location": "Océans du monde entier"
+    },
+    {
+      "name": "Cerberus",
+      "description": "Un chien monstrueux à trois têtes gardant l'entrée des Enfers dans la mythologie grecque.",
+      "price": 150000,
+      "age": "Immortel",
+      "location": "Entrée des Enfers, Grèce antique"
+    },
+    {
+      "name": "Mothman",
+      "description": "Une créature humanoïde ailée souvent associée à des phénomènes surnaturels et des catastrophes imminentes.",
+      "price": 70000,
+      "age": "Inconnu",
+      "location": "Point Pleasant, Virginie-Occidentale, États-Unis"
+    },
+    {
+      "name": "Chupacabra",
+      "description": "Une créature reptilienne ou canidé, réputée pour sucer le sang du bétail.",
+      "price": 60000,
+      "age": "Inconnu",
+      "location": "Amérique latine"
+    },
+    {
+      "name": "Yeti",
+      "description": "Une créature simiesque des régions montagneuses, souvent appelée l'abominable homme des neiges.",
+      "price": 85000,
+      "age": "Inconnu",
+      "location": "Himalaya, Tibet"
+    }
+  ]
+}
