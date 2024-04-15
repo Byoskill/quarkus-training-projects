@@ -39,35 +39,35 @@
       "name": "Kraken",
       "description": "Un énorme calmar ou pieuvre légendaire qui attaque les navires.",
       "price": 120000,
-      "age": "Inconnu",
+      "age": null,
       "location": "Océans du monde entier"
     },
     {
       "name": "Cerberus",
       "description": "Un chien monstrueux à trois têtes gardant l'entrée des Enfers dans la mythologie grecque.",
       "price": 150000,
-      "age": "Immortel",
+      "age": null,
       "location": "Entrée des Enfers, Grèce antique"
     },
     {
       "name": "Mothman",
       "description": "Une créature humanoïde ailée souvent associée à des phénomènes surnaturels et des catastrophes imminentes.",
       "price": 70000,
-      "age": "Inconnu",
+      "age": null,
       "location": "Point Pleasant, Virginie-Occidentale, États-Unis"
     },
     {
       "name": "Chupacabra",
       "description": "Une créature reptilienne ou canidé, réputée pour sucer le sang du bétail.",
       "price": 60000,
-      "age": "Inconnu",
+      "age": null,
       "location": "Amérique latine"
     },
     {
       "name": "Yeti",
       "description": "Une créature simiesque des régions montagneuses, souvent appelée l'abominable homme des neiges.",
       "price": 85000,
-      "age": "Inconnu",
+      "age": null,
       "location": "Himalaya, Tibet"
     }
   ]

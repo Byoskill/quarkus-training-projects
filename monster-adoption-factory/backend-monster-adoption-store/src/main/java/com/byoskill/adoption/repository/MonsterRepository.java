@@ -1,4 +1,6 @@
-package com.byoskill.adoption.connector;
+package com.byoskill.adoption.repository;
+
+import java.util.List;
 
 import com.byoskill.adoption.model.Monster;
 
@@ -8,5 +10,5 @@ import com.byoskill.adoption.model.Monster;
 public interface MonsterRepository {
     
     List<Monster> getAllMonsters();
-    void registerMonsterAdoption(Monster monster);
+    void addMonsterToAdopt(Monster monster);
 }
