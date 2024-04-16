@@ -11,8 +11,8 @@ public interface MonsterRepository {
     
     List<Monster> getAllMonsters();
     void addMonsterToAdopt(Monster monster);
-    Monster getMonsterById(String id);
+    Monster getMonsterByUuid(String id);
     List<Monster> searchMonstersByName(String name);
     void deleteMonsterById(String id);
-    Monster updateMonsterById(String id, Monster monster);
+    Monster updateMonsterByUUID(String id, Monster monster);
 }

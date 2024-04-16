@@ -35,14 +35,8 @@ public class MonsterMemoryRepository implements MonsterRepository {
     }
 
     @Override
-    public Monster getMonsterById(String id) {
-        Integer k;
-        try {
-            k = Integer.parseInt(id);
-        } catch (Exception e) {
-            return null;
-        }
-        return monsters.stream().filter(m -> Objects.equals(m.getId(), k)).findFirst().orElse(null);
+    public Monster getMonsterByUuid(String id) {
+        return monsters.stream().filter(m -> Objects.equals(m.getMonsterUUID(), id)).findFirst().orElse(null);
     }
 
     @Override
@@ -52,22 +46,22 @@ public class MonsterMemoryRepository implements MonsterRepository {
 
     @Override
     public void deleteMonsterById(String id) {
-        monsters.removeIf(m -> m.getId().equals(id));
+        monsters.removeIf(m -> m.getMonsterUUID().equals(id));
     }
 
     @Override
-    public Monster updateMonsterById(String id, Monster monster) {
-        if (id == null || monster == null) {
+    public Monster updateMonsterByUUID(String uuid, Monster monster) {
+        if (uuid == null || monster == null) {
             return null;
         }
-        Monster monsterToUpdate = getMonsterById(id);
+        Monster monsterToUpdate = getMonsterByUuid(uuid);
         if (monsterToUpdate != null) {
-            monsterToUpdate.setName(monster.getName());
-            monsterToUpdate.setAge(monster.getAge());
-            monsterToUpdate.setDescription(monster.getDescription());
-            monsterToUpdate.setLocation(monster.getLocation());
-            monsterToUpdate.setPrice(monster.getPrice());
-        }
+            if (monster.getName() != null) monsterToUpdate.setName(monster.getName());
+            if (monster.getAge() != null) monsterToUpdate.setAge(monster.getAge());
+            if (monster.getDescription() != null) monsterToUpdate.setDescription(monster.getDescription());
+            if (monster.getLocation() != null) monsterToUpdate.setLocation(monster.getLocation());
+            if (monster.getPrice() != null) monsterToUpdate.setPrice(monster.getPrice());
+        } else throw new IllegalArgumentException("Monster not found");
         return monsterToUpdate;
     }
 }

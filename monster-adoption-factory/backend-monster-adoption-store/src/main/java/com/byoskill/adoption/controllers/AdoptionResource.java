@@ -15,6 +15,8 @@ import jakarta.ws.rs.core.MediaType;
 
 import java.util.List;
 
+import org.jboss.resteasy.reactive.ResponseStatus;
+
 @Path("/adoptions")
 @Produces(MediaType.APPLICATION_JSON)
 public class AdoptionResource {
@@ -29,8 +31,8 @@ public class AdoptionResource {
 
     @GET
     @Path("/{id}")
-    public Monster getMonsterById(String id) {
-        return monsterRepository.getMonsterById(id);
+    public Monster getMonsterByUuid(String id) {
+        return monsterRepository.getMonsterByUuid(id);
     }
 
     @GET
@@ -47,6 +49,7 @@ public class AdoptionResource {
 
     @DELETE
     @Path("/{id}")
+    @ResponseStatus(204)
     public void deleteMonsterById(String id) {
         monsterRepository.deleteMonsterById(id);
     }
@@ -54,6 +57,6 @@ public class AdoptionResource {
     @PUT
     @Path("/{id}")
     public Monster updateMonsterById(String id, Monster monster) {
-        return monsterRepository.updateMonsterById(id, monster);
+        return monsterRepository.updateMonsterByUUID(id, monster);
     }
 }
