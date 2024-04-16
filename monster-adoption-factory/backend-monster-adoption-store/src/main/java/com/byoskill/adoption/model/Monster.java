@@ -1,17 +1,45 @@
 package com.byoskill.adoption.model;
 
 public class Monster {
-  private String name;
-  private String description;
-  private Integer price;
-  private Integer age;
-  private String location;
+    private Integer id;
+    private String monsterUUID;
+    private String name;
+    private String description;
+    private Integer price;
+    private Integer age;
+    private String location;
 
     public Monster() {
     }
 
+    public String getMonsterUUID() {
+        return monsterUUID;
+    }
+
+    public void setMonsterUUID(String monsterUUID) {
+        this.monsterUUID = monsterUUID;
+    }
+
+    private Integer monsterId;
+
+    public Integer getMonsterId() {
+        return monsterId;
+    }
+
+    public void setMonsterId(Integer monsterId) {
+        this.monsterId = monsterId;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public void setName(String name) {

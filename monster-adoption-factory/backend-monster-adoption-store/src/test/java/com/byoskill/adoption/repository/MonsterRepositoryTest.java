@@ -14,8 +14,9 @@ import com.byoskill.adoption.model.Monster;
 public class MonsterRepositoryTest {
 
     private static final Integer MONSTERS_IN_JSON = 10;
+
     @Inject
-    MonsterRepository monsterRepository;
+    MonsterRepository monsterRepository; 
 
     @Test
     void tetIntegrationMonsterRepository() {
