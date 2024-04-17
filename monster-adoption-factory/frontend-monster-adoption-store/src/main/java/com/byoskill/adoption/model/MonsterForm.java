@@ -2,7 +2,6 @@ package com.byoskill.adoption.model;
 
 public class MonsterForm {
     private String name;
-    private String type;
     private String description;
     private Integer price;    
     private String location;    
@@ -30,14 +29,6 @@ public class MonsterForm {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getDescription() {
