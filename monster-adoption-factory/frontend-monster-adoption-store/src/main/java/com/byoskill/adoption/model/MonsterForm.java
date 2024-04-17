@@ -5,7 +5,16 @@ public class MonsterForm {
     private String type;
     private String description;
     private Integer price;    
-    private String location;
+    private String location;    
+    private Integer age;
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
 
     public String getLocation() {
         return location;
