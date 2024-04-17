@@ -6,6 +6,15 @@ public class MonsterForm {
     private Integer price;    
     private String location;    
     private Integer age;
+    private String monsterUuid;
+
+    public String getMonsterUuid() {
+        return monsterUuid;
+    }
+
+    public void setMonsterUuid(String monsterUuid) {
+        this.monsterUuid = monsterUuid;
+    }
 
     public Integer getAge() {
         return age;
