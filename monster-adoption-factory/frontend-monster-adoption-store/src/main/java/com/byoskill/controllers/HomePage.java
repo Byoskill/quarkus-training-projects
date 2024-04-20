@@ -3,6 +3,7 @@ package com.byoskill.controllers;
 import com.byoskill.communication.client.CommunicationMessageService;
 import com.byoskill.communication.model.WelcomeMessage;
 import io.smallrye.common.annotation.Blocking;
+import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -16,7 +17,7 @@ import org.eclipse.microprofile.rest.client.inject.RestClient;
 @Path("")
 public class HomePage {
     
-    
+    @Inject
     @RestClient
     CommunicationMessageService communicationMessageService;
     
@@ -26,8 +27,8 @@ public class HomePage {
     @Blocking
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get() {
-        WelcomeMessage welcomeMessage = communicationMessageService.getWelcomeMessage();
-        return index.data("motd", welcomeMessage.message());
+    public Uni<TemplateInstance> get() {
+        Uni<String> welcomeMessage = communicationMessageService.getWelcomeMessage().onItem().transform(msg ->msg.message());
+        return Uni.createFrom().item(() -> index.data("motd", welcomeMessage));
     }
 }
