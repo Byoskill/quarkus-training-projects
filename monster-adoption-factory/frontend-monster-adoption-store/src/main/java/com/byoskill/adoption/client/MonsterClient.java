@@ -3,6 +3,8 @@ package com.byoskill.adoption.client;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 import com.byoskill.adoption.model.MonsterForm;
+
+import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -16,6 +18,6 @@ public interface MonsterClient {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    MonsterForm addMonster(MonsterForm monsterForm);
+    Uni<MonsterForm> addMonster(MonsterForm monsterForm);
     
 }

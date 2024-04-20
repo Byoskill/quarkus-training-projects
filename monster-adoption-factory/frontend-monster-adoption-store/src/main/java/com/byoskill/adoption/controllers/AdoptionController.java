@@ -12,6 +12,7 @@ import io.quarkus.arc.log.LoggerName;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.smallrye.common.annotation.Blocking;
+import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
@@ -26,29 +27,27 @@ import jakarta.ws.rs.core.UriInfo;
 
 @Path("/adoptions")
 public class AdoptionController {
-    
+
     @LoggerName("com.byoskill.adoptions.controllers")
-    Logger LOGGER; 
+    Logger LOGGER;
 
     @Inject
     @RestClient
     MonsterClient monsterClient;
-    
+
     @Inject
-    Template adoptionForm; 
+    Template adoptionForm;
 
-
-    @Blocking
     @GET
     @Produces(MediaType.TEXT_HTML)
-    public TemplateInstance get() {
-        return adoptionForm.instance();
+    public Uni<TemplateInstance> get() {
+        return Uni.createFrom().item(() -> adoptionForm.instance());
     }
- 
+
     @POST
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response addMonster(
+    public Uni<Response> addMonster(
             @FormParam("name") String name,
             @FormParam("description") String description,
             @FormParam("price") Integer price,
@@ -56,17 +55,20 @@ public class AdoptionController {
             @FormParam("location") String location,
             @Context UriInfo uriInfo) {
 
-        LOGGER.info("Received new adoption request with the following details :" + name + ", " + description + ", " + price + ", " + age + ", " + location);                
-        MonsterForm monster = new MonsterForm();
-        monster.setName(name);
-        monster.setDescription(description);
-        monster.setPrice(price);
-        monster.setAge(age);
-        monster.setLocation(location);
+        LOGGER.info("Received new adoption request with the following details :" + name + ", " + description + ", "
+                + price + ", " + age + ", " + location);
 
-        monsterClient.addMonster(monster);
+        return Uni.createFrom().item(() -> {
+            URI uri = uriInfo.getBaseUriBuilder().path("/").build();
+            MonsterForm monster = new MonsterForm();
+            monster.setName(name);
+            monster.setDescription(description);
+            monster.setPrice(price);
+            monster.setAge(age);
+            monster.setLocation(location);
 
-        URI uri = uriInfo.getBaseUriBuilder().path("/").build();
-        return Response.seeOther(uri).build();
+            monsterClient.addMonster(monster);
+            return Response.seeOther(uri).build();
+        });
     }
 }
