@@ -1,9 +1,9 @@
 package com.byoskill.adoption.controllers;
 
 import com.byoskill.adoption.model.Monster;
-import com.byoskill.adoption.repository.MonsterRepository;
+import com.byoskill.adoption.repository.AdoptionRepository;
 
-
+import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -13,8 +13,6 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import java.util.List;
-
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("/adoptions")
@@ -22,29 +20,33 @@ import org.jboss.resteasy.reactive.ResponseStatus;
 public class AdoptionResource {
 
     @Inject
-    MonsterRepository monsterRepository;
+    AdoptionRepository monsterRepository;
 
     @GET
-    public MonsterView getAllMonsters() {
-        return new MonsterView(monsterRepository.getAllMonsters());
+    public Uni<MonsterView> getAllMonsters() {
+
+        return monsterRepository.getAllMonsters()
+                .log("getAllMonsters")
+                .collect()
+                .asList()
+                .map(MonsterView::new);
     }
 
     @GET
     @Path("/{id}")
-    public Monster getMonsterByUuid(String id) {
+    public Uni<Monster> getMonsterByUuid(String id) {
         return monsterRepository.getMonsterByUuid(id);
     }
 
     @GET
     @Path("/search/{name}")
-    public MonsterView searchMonstersByName(String name) {
-        return new MonsterView(monsterRepository.searchMonstersByName(name));
+    public Uni<MonsterView> searchMonstersByName(String name) {
+        return monsterRepository.searchMonstersByName(name).collect().asList().map(MonsterView::new);
     }
 
-    @POST    
-    public Monster createMonster(Monster monster) {
-        monsterRepository.addMonsterToAdopt(monster);
-        return monster;
+    @POST
+    public Uni<Monster> createMonster(Monster monster) {
+        return monsterRepository.addMonsterToAdopt(monster);
     }
 
     @DELETE
@@ -56,7 +58,7 @@ public class AdoptionResource {
 
     @PUT
     @Path("/{id}")
-    public Monster updateMonsterById(String id, Monster monster) {
+    public Uni<Monster> updateMonsterById(String id, Monster monster) {
         return monsterRepository.updateMonsterByUUID(id, monster);
     }
 }

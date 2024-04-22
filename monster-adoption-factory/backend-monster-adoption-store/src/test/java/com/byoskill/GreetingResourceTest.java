@@ -7,6 +7,7 @@ import static io.restassured.RestAssured.given;
 
 @QuarkusTest
 class GreetingResourceTest {
+    
     @Test
     void testHelloEndpoint() {
         given()

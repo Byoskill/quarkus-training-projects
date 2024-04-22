@@ -28,7 +28,7 @@ public class HomePage {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Uni<TemplateInstance> get() {
-        Uni<String> welcomeMessage = communicationMessageService.getWelcomeMessage().onItem().transform(msg ->msg.message());
+        Uni<String> welcomeMessage = communicationMessageService.getWelcomeMessage().onItem().transform(msg -> msg.message());
         return Uni.createFrom().item(() -> index.data("motd", welcomeMessage));
     }
 }

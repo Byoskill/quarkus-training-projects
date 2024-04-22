@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.byoskill.adoption.model.Monster;
-import com.byoskill.adoption.repository.MonsterRepository;
+import com.byoskill.adoption.repository.AdoptionRepository;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -34,12 +34,12 @@ public class MonsterFileLoader {
     }
 
     public void initLoad(@Observes StartupEvent event, 
-                        MonsterRepository monsterRepository, 
+                        AdoptionRepository monsterRepository, 
                         @ConfigProperty(name = "backend.file.monsters") String jsonFileName ) throws StreamReadException, DatabindException, IOException {
         File monsterFileName = new File(jsonFileName);
         LOGGER.info("Loading default monster list from {}", monsterFileName.getAbsolutePath());
         MonsterList monsters = new ObjectMapper().readValue(monsterFileName, new TypeReference<MonsterList>() {});
-        monsters.stream().forEach(monster -> monsterRepository.addMonsterToAdopt(monster));        
+        monsters.stream().forEach(monster -> monsterRepository.addMonsterToAdopt(monster).await().indefinitely());        
         LOGGER.info("Monsters loaded successfully");
     }
     
