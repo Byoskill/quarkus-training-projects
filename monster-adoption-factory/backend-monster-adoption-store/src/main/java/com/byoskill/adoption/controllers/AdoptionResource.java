@@ -13,6 +13,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+import java.util.List;
+
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("/adoptions")
@@ -33,9 +35,30 @@ public class AdoptionResource {
     }
 
     @GET
+    @Path("/monsters")
+    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    public Uni<MonsterView> getAllMonsters2() {
+        return monsterRepository.getAllMonsters()
+                .log("getAllMonsters")
+                .collect()
+                .asList()
+                .map(MonsterView::new);
+    }
+
+    @GET
     @Path("/{id}")
     public Uni<Monster> getMonsterByUuid(String id) {
         return monsterRepository.getMonsterByUuid(id);
+    }
+
+    @GET
+    @Path("/adoptions/available")
+    public Uni<MonsterView> getAvailableMonsters() {
+        return monsterRepository.getAllMonsters()
+                .log("getAvailableMonsters")
+                .collect()
+                .asList()
+                .map(MonsterView::new);
     }
 
     @GET

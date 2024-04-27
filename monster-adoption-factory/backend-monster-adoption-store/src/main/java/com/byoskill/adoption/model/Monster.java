@@ -1,12 +1,34 @@
 package com.byoskill.adoption.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 public class Monster {
     private Integer id;
     private String monsterUUID;
+
+    @NotNull
+    @Size(min = 3, max = 20)
     private String name;
+
+    @NotNull
+    @Size(min = 3, max = 20)
     private String description;
+
+    @NotNull
+    @Min(1)
+    @Max(100)
     private Integer price;
+
+    @NotNull
+    @Min(1)
+    @Max(100)
     private Integer age;
+
+    @NotNull
+    @Size(min = 3, max = 20)
     private String location;
 
     public Monster() {
