@@ -6,6 +6,7 @@ import com.byoskill.adoption.repository.AdoptionRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.DefaultValue;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.PUT;
@@ -84,4 +85,11 @@ public class AdoptionResource {
     public Uni<Monster> updateMonsterById(String id, Monster monster) {
         return monsterRepository.updateMonsterByUUID(id, monster);
     }
+
+    @GET
+    @Path("/search/age/{age}")
+    public Uni<MonsterView> searchMonstersByAge(@DefaultValue("0") String age) {
+        return monsterRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
+    }
+
 }

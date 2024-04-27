@@ -16,4 +16,5 @@ public interface AdoptionRepository {
     Multi<Monster> searchMonstersByName(String name);
     void deleteMonsterById(String id);
     Uni<Monster> updateMonsterByUUID(String id, Monster monster);
+    Multi<Monster> searchMonstersByAge(Integer age);
 }
