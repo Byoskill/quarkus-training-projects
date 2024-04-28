@@ -1,4 +1,4 @@
-package com.byoskill.domain.adoption.controllers;
+package com.byoskill.frontend.controllers;
 
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
@@ -80,6 +80,15 @@ public class AdoptionResource {
     @Path("/search/age/{age}")
     public Uni<MonsterView> searchMonstersByAge(@DefaultValue("0") final String age) {
         return monsterRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
+    }
+
+    @POST
+    @Path("/{id}/name")
+    public Uni<Monster> changeName(@PathParam("id") final String id, @QueryParam("name") final String name) {
+        return monsterRepository.getMonsterByUuid(id)
+                .log("findByUuid")
+                .onItem().ifNull().failWith(new WebApplicationException("Monster not found", 404))
+                .call(monster -> monsterRepository.changeName(monster, name));
     }
 
 }
