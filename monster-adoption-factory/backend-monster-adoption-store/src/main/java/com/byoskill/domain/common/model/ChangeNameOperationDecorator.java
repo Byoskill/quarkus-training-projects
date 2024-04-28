@@ -16,8 +16,8 @@ public class ChangeNameOperationDecorator implements ChangeNameOperation<HasName
     ChangeNameOperation<HasName> delegate;
 
     @Override
-    public HasName changeName(final HasName _newEntity, final String newName) {
+    public HasName changeName(final HasName entityToBeUpdated, final String newName) {
         if (3 > newName.length()) throw new IllegalArgumentException("Name must be at least 3 characters long");
-        return delegate.changeName(_newEntity, newName);
+        return delegate.changeName(entityToBeUpdated, newName);
     }
 }

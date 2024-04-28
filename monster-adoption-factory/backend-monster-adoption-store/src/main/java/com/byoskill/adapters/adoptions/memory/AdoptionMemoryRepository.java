@@ -94,4 +94,10 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
     public Multi<Monster> searchMonstersByAge(final Integer age) {
         return Multi.createFrom().items(monsters.stream().filter(m -> Objects.equals(m.getAge(), age)));
     }
+
+    @Override
+    public Monster changeName(final Monster monsterToBeUpdated, final String newName) {
+        monsterToBeUpdated.setName(newName);
+        return monsterToBeUpdated;
+    }
 }
