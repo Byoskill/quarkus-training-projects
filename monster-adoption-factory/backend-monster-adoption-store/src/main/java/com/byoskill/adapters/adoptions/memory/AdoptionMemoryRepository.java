@@ -1,88 +1,97 @@
-package com.byoskill.adapters.memory;
+package com.byoskill.adapters.adoptions.memory;
+
+import com.byoskill.domain.adoption.model.Monster;
+import com.byoskill.domain.adoption.repository.AdoptionRepository;
+import com.byoskill.frontend.utils.Logged;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import com.byoskill.adoption.model.Monster;
-import com.byoskill.adoption.repository.AdoptionRepository;
-
-import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.Uni;
-import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class AdoptionMemoryRepository implements AdoptionRepository {
-    private static int counter = 0;
-    private List<Monster> monsters;
+    private static int counter;
+    private final List<Monster> monsters;
 
     public AdoptionMemoryRepository() {
         monsters = new ArrayList<>();
     }
 
+    @Logged
     @Override
     public Multi<Monster> getAllMonsters() {
         return Multi.createFrom().iterable(monsters);
     }
 
-    public Uni<Monster> addMonsterToAdopt(Monster monster) {
+    @Logged
+    public Uni<Monster> addMonsterToAdopt(final Monster monster) {
         return Uni.createFrom().item(() -> {
             monsters.add(monster);
-            monster.setId(++counter);
+            ++counter;
+            monster.setId(counter);
             monster.setMonsterUUID(UUID.randomUUID().toString());
             return monster;
         });
 
     }
 
+    @Logged
     @Override
-    public Uni<Monster> getMonsterByUuid(String id) {
+    public Uni<Monster> getMonsterByUuid(final String id) {
         return Uni.createFrom().item(
                 monsters.stream()
                         .filter(m -> Objects.equals(m.getMonsterUUID(), id))
                         .findFirst().orElse(null));
     }
 
+    @Logged
     @Override
-    public Multi<Monster> searchMonstersByName(String name) {
+    public Multi<Monster> searchMonstersByName(final String name) {
         return Multi.createFrom().items(monsters.stream().filter(m -> m.getName().contains(name)));
     }
 
+    @Logged
     @Override
-    public void deleteMonsterById(String id) {
+    public void deleteMonsterById(final String id) {
         monsters.removeIf(m -> m.getMonsterUUID().equals(id));
     }
 
+    @Logged
     @Override
-    public Uni<Monster> updateMonsterByUUID(String uuid, Monster monster) {
-        if (uuid == null || monster == null) {
+    public Uni<Monster> updateMonsterByUUID(final String uuid, final Monster monster) {
+        if (null == uuid || null == monster) {
             return null;
         }
-        Uni<Monster> promise = getMonsterByUuid(uuid);
+        final Uni<Monster> promise = this.getMonsterByUuid(uuid);
         return promise
                 .log()
                 // TIMEOUT
                 .ifNoItem().after(Duration.ofMillis(500)).fail()
-                .onItem()                
+                .onItem()
                 .transform(
                         monsterToUpdate -> {
-                            if (monster.getName() != null)
+                            if (null != monster.getName())
                                 monsterToUpdate.setName(monster.getName());
-                            if (monster.getAge() != null)
+                            if (null != monster.getAge())
                                 monsterToUpdate.setAge(monster.getAge());
-                            if (monster.getDescription() != null)
+                            if (null != monster.getDescription())
                                 monsterToUpdate.setDescription(monster.getDescription());
-                            if (monster.getLocation() != null)
+                            if (null != monster.getLocation())
                                 monsterToUpdate.setLocation(monster.getLocation());
-                            if (monster.getPrice() != null)
+                            if (null != monster.getPrice())
                                 monsterToUpdate.setPrice(monster.getPrice());
                             return monsterToUpdate;
                         });
     }
 
+    @Logged
     @Override
-    public Multi<Monster> searchMonstersByAge(Integer age) {
+    public Multi<Monster> searchMonstersByAge(final Integer age) {
         return Multi.createFrom().items(monsters.stream().filter(m -> Objects.equals(m.getAge(), age)));
     }
 }

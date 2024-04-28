@@ -1,21 +1,11 @@
-package com.byoskill.adoption.controllers;
+package com.byoskill.domain.adoption.controllers;
 
-import com.byoskill.adoption.model.Monster;
-import com.byoskill.adoption.repository.AdoptionRepository;
-
+import com.byoskill.domain.adoption.model.Monster;
+import com.byoskill.domain.adoption.repository.AdoptionRepository;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.DELETE;
-import jakarta.ws.rs.DefaultValue;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-
-import java.util.List;
-
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("/adoptions")
@@ -37,7 +27,7 @@ public class AdoptionResource {
 
     @GET
     @Path("/monsters")
-    @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Uni<MonsterView> getAllMonsters2() {
         return monsterRepository.getAllMonsters()
                 .log("getAllMonsters")
@@ -48,7 +38,7 @@ public class AdoptionResource {
 
     @GET
     @Path("/{id}")
-    public Uni<Monster> getMonsterByUuid(String id) {
+    public Uni<Monster> getMonsterByUuid(final String id) {
         return monsterRepository.getMonsterByUuid(id);
     }
 
@@ -64,31 +54,31 @@ public class AdoptionResource {
 
     @GET
     @Path("/search/{name}")
-    public Uni<MonsterView> searchMonstersByName(String name) {
+    public Uni<MonsterView> searchMonstersByName(final String name) {
         return monsterRepository.searchMonstersByName(name).collect().asList().map(MonsterView::new);
     }
 
     @POST
-    public Uni<Monster> createMonster(Monster monster) {
+    public Uni<Monster> createMonster(final Monster monster) {
         return monsterRepository.addMonsterToAdopt(monster);
     }
 
     @DELETE
     @Path("/{id}")
     @ResponseStatus(204)
-    public void deleteMonsterById(String id) {
+    public void deleteMonsterById(final String id) {
         monsterRepository.deleteMonsterById(id);
     }
 
     @PUT
     @Path("/{id}")
-    public Uni<Monster> updateMonsterById(String id, Monster monster) {
+    public Uni<Monster> updateMonsterById(final String id, final Monster monster) {
         return monsterRepository.updateMonsterByUUID(id, monster);
     }
 
     @GET
     @Path("/search/age/{age}")
-    public Uni<MonsterView> searchMonstersByAge(@DefaultValue("0") String age) {
+    public Uni<MonsterView> searchMonstersByAge(@DefaultValue("0") final String age) {
         return monsterRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
     }
 

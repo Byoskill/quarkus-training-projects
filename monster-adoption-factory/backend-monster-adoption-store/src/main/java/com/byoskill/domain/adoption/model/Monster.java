@@ -1,11 +1,12 @@
-package com.byoskill.adoption.model;
+package com.byoskill.domain.adoption.model;
 
+import com.byoskill.domain.common.model.HasName;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Monster {
+public class Monster implements HasName {
     private Integer id;
     private String monsterUUID;
 
@@ -30,6 +31,7 @@ public class Monster {
     @NotNull
     @Size(min = 3, max = 20)
     private String location;
+    private Integer monsterId;
 
     public Monster() {
     }
@@ -38,17 +40,15 @@ public class Monster {
         return monsterUUID;
     }
 
-    public void setMonsterUUID(String monsterUUID) {
+    public void setMonsterUUID(final String monsterUUID) {
         this.monsterUUID = monsterUUID;
     }
-
-    private Integer monsterId;
 
     public Integer getMonsterId() {
         return monsterId;
     }
 
-    public void setMonsterId(Integer monsterId) {
+    public void setMonsterId(final Integer monsterId) {
         this.monsterId = monsterId;
     }
 
@@ -56,23 +56,23 @@ public class Monster {
         return name;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setName(final String name) {
+        this.name = name;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(final Integer id) {
+        this.id = id;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -80,7 +80,7 @@ public class Monster {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(final Integer price) {
         this.price = price;
     }
 
@@ -88,7 +88,7 @@ public class Monster {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(final Integer age) {
         this.age = age;
     }
 
@@ -96,9 +96,9 @@ public class Monster {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         this.location = location;
     }
-    
+
 
 }

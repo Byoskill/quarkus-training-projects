@@ -1,40 +1,40 @@
 package com.byoskill.adoption.model;
 
-import java.util.Set;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
+import com.byoskill.domain.adoption.model.UUIDValid;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 public class UUIDValidatorTest {
 
-    public class Model {
+    @Test
+    public void testUUIDValidation() {
+        Assertions.assertEquals(0, this.validate("123e4567-e89b-12d3-a456-426655440000").size());
+        Assertions.assertEquals(1, this.validate("").size());
+    }
 
-        public Model(String uuid) {
-            this.uuid = uuid;
-        }
+    private Set<ConstraintViolation<Model>> validate(final String uuidValue) {
+        final ValidatorFactory validatorFactory = Validation.byDefaultProvider()
+                .configure()
+                .buildValidatorFactory();
+        final Validator validator = validatorFactory.getValidator();
+        final Set<ConstraintViolation<Model>> violations = validator.validate(new Model(uuidValue));
+        return violations;
+    }
+
+    public class Model {
 
         @UUIDValid
         public String uuid;
+
+        public Model(final String uuid) {
+            this.uuid = uuid;
+        }
     }
 
-    @Test
-    public void testUUIDValidation() {
-        Assertions.assertEquals(0, validate("123e4567-e89b-12d3-a456-426655440000").size());
-        Assertions.assertEquals(1, validate("").size());
-    }
-
-    private Set<ConstraintViolation<Model>> validate(String uuidValue) {
-        ValidatorFactory validatorFactory = Validation.byDefaultProvider()
-                .configure()
-                .buildValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<Model>> violations = validator.validate(new Model(uuidValue));
-        return violations;
-    }
-    
 }

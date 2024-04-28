@@ -1,44 +1,21 @@
 package com.byoskill.adoption.controllers;
 
+import com.byoskill.domain.adoption.model.Monster;
 import io.quarkus.test.junit.QuarkusTest;
 import jakarta.ws.rs.core.MediaType;
-
-import static org.hamcrest.CoreMatchers.*;
-
-import java.util.List;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.byoskill.adoption.model.Monster;
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.CoreMatchers.*;
 
 @QuarkusTest
 public class AdoptionResourceTest {
-
-    public static class GreaterTOrEqualshanSizeMatcher extends TypeSafeMatcher<List<?>> {
-
-        private int expectedSize;
-
-        public GreaterTOrEqualshanSizeMatcher(int expectedSize) {
-            this.expectedSize = expectedSize;
-        }
-
-        @Override
-        public void describeTo(Description description) {
-            description.appendText("The number of items should be greater than " + expectedSize);
-        }
-
-        @Override
-        protected boolean matchesSafely(List<?> item) {
-            System.out.println(item);
-            return item != null && item.size() > expectedSize;
-        }
-
-    }
 
     @Test
     void testGetMonsters() {
@@ -64,7 +41,7 @@ public class AdoptionResourceTest {
     @DisplayName("Essai de récupération d'un monstre, le monstre existe")
     @Test
     void testGetOneMonster_existing() {
-        var firstMonster = given().when()
+        final var firstMonster = given().when()
                 .get("/adoptions")
                 .jsonPath().getList("monsters", Monster.class).get(0);
 
@@ -108,7 +85,7 @@ public class AdoptionResourceTest {
     @DisplayName("Suppression d'un monstre pour l'adoption")
     @Test
     void testDeletionMonster_for_adoption() {
-        var firstMonster = given().when()
+        final var firstMonster = given().when()
                 .get("/adoptions")
                 .jsonPath().getList("monsters", Monster.class).get(0);
 
@@ -124,7 +101,7 @@ public class AdoptionResourceTest {
     @DisplayName("Update du prix d'un monstre pour l'adoption")
     @Test
     void testUpdateMonster_price() {
-        var firstMonster = given().when()
+        final var firstMonster = given().when()
                 .get("/adoptions")
                 .jsonPath().getList("monsters", Monster.class).get(0);
 
@@ -139,6 +116,27 @@ public class AdoptionResourceTest {
                 .then()
                 .statusCode(200);
 
-            }
+    }
+
+    public static class GreaterTOrEqualshanSizeMatcher extends TypeSafeMatcher<List<?>> {
+
+        private final int expectedSize;
+
+        public GreaterTOrEqualshanSizeMatcher(final int expectedSize) {
+            this.expectedSize = expectedSize;
+        }
+
+        @Override
+        public void describeTo(final Description description) {
+            description.appendText("The number of items should be greater than " + expectedSize);
+        }
+
+        @Override
+        protected boolean matchesSafely(final List<?> item) {
+            System.out.println(item);
+            return null != item && item.size() > expectedSize;
+        }
+
+    }
 
 }
