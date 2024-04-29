@@ -2,10 +2,12 @@ package com.byoskill.frontend.controllers;
 
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
+import com.byoskill.frontend.security.ApiFilter;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
 @Path("/adoptions")
@@ -38,7 +40,7 @@ public class AdoptionResource {
 
     @GET
     @Path("/{id}")
-    public Uni<Monster> getMonsterByUuid(final String id) {
+    public Uni<Monster> getMonsterByUuid(@PathParam("id") final String id) {
         return monsterRepository.getMonsterByUuid(id);
     }
 
@@ -54,7 +56,7 @@ public class AdoptionResource {
 
     @GET
     @Path("/search/{name}")
-    public Uni<MonsterView> searchMonstersByName(final String name) {
+    public Uni<MonsterView> searchMonstersByName(@PathParam("name") @DefaultValue("*") final String name) {
         return monsterRepository.searchMonstersByName(name).collect().asList().map(MonsterView::new);
     }
 
@@ -72,16 +74,17 @@ public class AdoptionResource {
 
     @PUT
     @Path("/{id}")
-    public Uni<Monster> updateMonsterById(final String id, final Monster monster) {
+    public Uni<Monster> updateMonsterById(@PathParam("id") final String id, @RequestBody final Monster monster) {
         return monsterRepository.updateMonsterByUUID(id, monster);
     }
 
     @GET
     @Path("/search/age/{age}")
-    public Uni<MonsterView> searchMonstersByAge(@DefaultValue("0") final String age) {
+    public Uni<MonsterView> searchMonstersByAge(@PathParam("age") @DefaultValue("0") final String age) {
         return monsterRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
     }
 
+    @ApiFilter
     @POST
     @Path("/{id}/name")
     public Uni<Monster> changeName(@PathParam("id") final String id, @QueryParam("name") final String name) {

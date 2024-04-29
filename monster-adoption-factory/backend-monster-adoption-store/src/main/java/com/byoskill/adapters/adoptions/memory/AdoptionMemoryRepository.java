@@ -23,7 +23,6 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
         monsters = new ArrayList<>();
     }
 
-    @ApiFilter
     @Logged
     @Override
     public Multi<Monster> getAllMonsters() {

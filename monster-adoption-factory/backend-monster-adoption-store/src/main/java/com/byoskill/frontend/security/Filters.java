@@ -12,8 +12,7 @@ class Filters {
     @ServerRequestFilter
     public Optional<Response> getFilter(final ContainerRequestContext ctx) {
         // only allow GET methods for now
-        if (ctx.getMethod().equals(HttpMethod.GET)) {
-            ctx.abortWith(Response.status(Response.Status.METHOD_NOT_ALLOWED).build());
+        if (ctx.getMethod().equals(HttpMethod.PATCH)) {
             return Optional.of(Response.status(Response.Status.METHOD_NOT_ALLOWED).build());
         }
         return Optional.empty();
