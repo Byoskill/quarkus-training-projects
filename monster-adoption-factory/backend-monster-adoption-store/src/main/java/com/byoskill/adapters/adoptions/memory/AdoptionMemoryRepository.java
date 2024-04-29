@@ -2,7 +2,6 @@ package com.byoskill.adapters.adoptions.memory;
 
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
-import com.byoskill.frontend.security.ApiFilter;
 import com.byoskill.frontend.utils.Logged;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
@@ -68,7 +67,7 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
         if (null == uuid || null == monster) {
             return null;
         }
-        final Uni<Monster> promise = getMonsterByUuid(uuid);
+        final Uni<Monster> promise = this.getMonsterByUuid(uuid);
         return promise
                 .log()
                 // TIMEOUT
