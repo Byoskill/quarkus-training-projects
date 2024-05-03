@@ -18,7 +18,7 @@ public interface AdoptionRepository extends ChangeNameOperation<Monster> {
 
     Multi<Monster> searchMonstersByName(String name);
 
-    void deleteMonsterById(String id);
+    void deleteMonsterByUUID(String id);
 
     Uni<Monster> updateMonsterByUUID(String id, Monster monster);
 

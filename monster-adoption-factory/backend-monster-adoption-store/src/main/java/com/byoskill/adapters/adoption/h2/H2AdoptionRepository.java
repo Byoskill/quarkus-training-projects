@@ -6,6 +6,7 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -30,26 +31,37 @@ public class H2AdoptionRepository implements AdoptionRepository {
 
     @Override
     public Uni<Monster> addMonsterToAdopt(final Monster monster) {
-        return null;
+        entityManager.persist(MonsterEntity.fromModel(monster));
+        return Uni.createFrom().item(monster);
     }
 
     @Override
-    public Uni<Monster> getMonsterByUuid(final String id) {
-        return null;
+    public Uni<Monster> getMonsterByUuid(final String uuid) {
+        final TypedQuery<MonsterEntity> query = entityManager.createQuery("SELECT monster from MonsterEntity monster where monster.monsterUUID = :id", MonsterEntity.class);
+        query.setParameter("id", uuid);
+        final List<MonsterEntity> resultList = query.getResultList();
+        return 1 == resultList.size() ? Uni.createFrom().item(resultList.get(0).toModel()) : Uni.createFrom().nullItem();
     }
 
     @Override
     public Multi<Monster> searchMonstersByName(final String name) {
-        return null;
+        final TypedQuery<MonsterEntity> query = entityManager.createQuery("SELECT monster from MonsterEntity monster where monster.name = :name", MonsterEntity.class);
+        query.setParameter("name", name);
+        final List<MonsterEntity> resultList = query.getResultList();
+        return Multi.createFrom().items(resultList.stream()
+                .map(MonsterEntity::toModel)
+        );
     }
 
     @Override
-    public void deleteMonsterById(final String id) {
-
+    public void deleteMonsterByUUID(final String uuid) {
+        entityManager.createQuery("DELETE FROM MonsterEntity monster where monster.monsterUUID = :id");
+        entityManager.flush();
     }
 
     @Override
-    public Uni<Monster> updateMonsterByUUID(final String id, final Monster monster) {
+    public Uni<Monster> updateMonsterByUUID(final String uuid, final Monster monster) {
+
         return null;
     }
 
