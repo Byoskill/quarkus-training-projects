@@ -1,4 +1,4 @@
-package com.byoskill.adoption.client;
+package com.byoskill.adoption.model;
 
 import java.util.List;
 

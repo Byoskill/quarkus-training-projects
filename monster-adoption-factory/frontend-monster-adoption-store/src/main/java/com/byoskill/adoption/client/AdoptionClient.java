@@ -1,6 +1,7 @@
 package com.byoskill.adoption.client;
 
 import com.byoskill.adoption.model.MonsterForm;
+import com.byoskill.adoption.model.MonsterView;
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

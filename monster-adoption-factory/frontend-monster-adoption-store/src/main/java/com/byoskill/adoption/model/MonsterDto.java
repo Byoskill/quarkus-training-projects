@@ -1,4 +1,4 @@
-package com.byoskill.adoption.client;
+package com.byoskill.adoption.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
