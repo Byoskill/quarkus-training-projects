@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 public class Monster implements HasName {
     private Long id;
     private String monsterUUID;
-
     @NotNull
     @Size(min = 3, max = 20)
     private String name;
@@ -33,7 +32,17 @@ public class Monster implements HasName {
     private String location;
     private Integer monsterId;
 
+    private String image_url;
+
     public Monster() {
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(final String image_url) {
+        this.image_url = image_url;
     }
 
     public String getMonsterUUID() {
@@ -101,4 +110,18 @@ public class Monster implements HasName {
     }
 
 
+    @Override
+    public String toString() {
+        return "Monster{" +
+                "id=" + id +
+                ", monsterUUID='" + monsterUUID + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", age=" + age +
+                ", location='" + location + '\'' +
+                ", monsterId=" + monsterId +
+                ", image_url='" + image_url + '\'' +
+                '}';
+    }
 }

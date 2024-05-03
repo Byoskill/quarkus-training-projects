@@ -68,7 +68,7 @@ public class AdoptionResource {
     @DELETE
     @Path("/{id}")
     @ResponseStatus(204)
-    public void deleteMonsterById(final String id) {
+    public void deleteMonsterById(@PathParam("id") final String id) {
         monsterRepository.deleteMonsterById(id);
     }
 

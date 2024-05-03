@@ -33,8 +33,9 @@ public class HomePage {
     @Produces(MediaType.TEXT_HTML)
     public Uni<TemplateInstance> get() {
         final Uni<String> welcomeMessage = communicationMessageClient.getWelcomeMessage().onItem().transform(WelcomeMessage::message);
+        final var monsterPromise = adoptionClient.getMonsters().log().onItem().transform(v -> v.monsters());
         return Uni.createFrom().item(() -> index
-                .data("monsters", adoptionClient.getMonsters())
+                .data("monsters", monsterPromise)
                 .data("motd", welcomeMessage)
         );
     }

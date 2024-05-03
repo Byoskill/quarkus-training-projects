@@ -31,8 +31,17 @@ public class MonsterDto {
     @Size(min = 3, max = 20)
     private String location;
     private Integer monsterId;
+    private String image_url;
 
     public MonsterDto() {
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(final String image_url) {
+        this.image_url = image_url;
     }
 
     public String getMonsterUUID() {
@@ -110,6 +119,7 @@ public class MonsterDto {
                 ", age=" + age +
                 ", location='" + location + '\'' +
                 ", monsterId=" + monsterId +
+                ", image_url='" + image_url + '\'' +
                 '}';
     }
 }

@@ -6,8 +6,6 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
-import java.util.List;
-
 @Path("/adoptions")
 @RegisterRestClient(configKey = "adoption-api")
 public interface AdoptionClient {
@@ -20,5 +18,5 @@ public interface AdoptionClient {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    Uni<List<MonsterDto>> getMonsters();
+    Uni<MonsterView> getMonsters();
 }

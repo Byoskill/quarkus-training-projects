@@ -50,6 +50,7 @@ public class MonsterEntity {
         monsterEntity.age = monster.getAge();
         monsterEntity.location = monster.getLocation();
         monsterEntity.monsterId = monster.getMonsterId();
+        monsterEntity.imageUrl = monster.getImage_url();
         return monsterEntity;
     }
 
@@ -64,6 +65,7 @@ public class MonsterEntity {
         monster.setAge(age);
         monster.setLocation(location);
         monster.setMonsterId(monsterId);
+        monster.setImage_url(imageUrl);
         return monster;
     }
 

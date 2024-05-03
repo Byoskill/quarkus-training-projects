@@ -65,7 +65,7 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
     @Override
     public Uni<Monster> updateMonsterByUUID(final String uuid, final Monster monster) {
         if (null == uuid || null == monster) {
-            return null;
+            return Uni.createFrom().nullItem();
         }
         final Uni<Monster> promise = getMonsterByUuid(uuid);
         return promise
