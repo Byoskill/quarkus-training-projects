@@ -1,4 +1,4 @@
-package com.byoskill.domain.common.model;
+package com.byoskill.domain.common;
 
 import io.smallrye.mutiny.Uni;
 

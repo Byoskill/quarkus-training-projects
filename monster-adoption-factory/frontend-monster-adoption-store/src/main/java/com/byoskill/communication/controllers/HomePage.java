@@ -1,6 +1,8 @@
 package com.byoskill.communication.controllers;
 
-import com.byoskill.communication.client.CommunicationMessageService;
+import com.byoskill.adoption.client.AdoptionClient;
+import com.byoskill.communication.client.CommunicationMessageClient;
+import com.byoskill.communication.model.WelcomeMessage;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
 import io.smallrye.common.annotation.Blocking;
@@ -17,7 +19,11 @@ public class HomePage {
 
     @Inject
     @RestClient
-    CommunicationMessageService communicationMessageService;
+    CommunicationMessageClient communicationMessageClient;
+
+    @Inject
+    @RestClient
+    AdoptionClient adoptionClient;
 
     @Inject
     Template index;
@@ -26,7 +32,10 @@ public class HomePage {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Uni<TemplateInstance> get() {
-        final Uni<String> welcomeMessage = communicationMessageService.getWelcomeMessage().onItem().transform(msg -> msg.message());
-        return Uni.createFrom().item(() -> index.data("motd", welcomeMessage));
+        final Uni<String> welcomeMessage = communicationMessageClient.getWelcomeMessage().onItem().transform(WelcomeMessage::message);
+        return Uni.createFrom().item(() -> index
+                .data("monsters", adoptionClient.getMonsters())
+                .data("motd", welcomeMessage)
+        );
     }
 }

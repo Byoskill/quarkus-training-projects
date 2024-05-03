@@ -1,29 +1,21 @@
 package com.byoskill.adoption.controllers;
 
-import java.net.URI;
-
-import org.eclipse.microprofile.rest.client.inject.RestClient;
-import org.jboss.logging.Logger;
-
-import com.byoskill.adoption.client.MonsterClient;
+import com.byoskill.adoption.client.AdoptionClient;
 import com.byoskill.adoption.model.MonsterForm;
-
 import io.quarkus.arc.log.LoggerName;
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;
-import io.smallrye.common.annotation.Blocking;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.FormParam;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
+import org.jboss.logging.Logger;
+
+import java.net.URI;
 
 @Path("/adoptions")
 public class AdoptionController {
@@ -33,7 +25,7 @@ public class AdoptionController {
 
     @Inject
     @RestClient
-    MonsterClient monsterClient;
+    AdoptionClient adoptionClient;
 
     @Inject
     Template adoptionForm;
@@ -48,26 +40,26 @@ public class AdoptionController {
     @Path("/submit")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Uni<Response> addMonster(
-            @FormParam("name") String name,
-            @FormParam("description") String description,
-            @FormParam("price") Integer price,
-            @FormParam("age") Integer age,
-            @FormParam("location") String location,
-            @Context UriInfo uriInfo) {
+            @FormParam("name") final String name,
+            @FormParam("description") final String description,
+            @FormParam("price") final Integer price,
+            @FormParam("age") final Integer age,
+            @FormParam("location") final String location,
+            @Context final UriInfo uriInfo) {
 
         LOGGER.info("Received new adoption request with the following details :" + name + ", " + description + ", "
                 + price + ", " + age + ", " + location);
 
         return Uni.createFrom().item(() -> {
-            URI uri = uriInfo.getBaseUriBuilder().path("/").build();
-            MonsterForm monster = new MonsterForm();
+            final URI uri = uriInfo.getBaseUriBuilder().path("/").build();
+            final MonsterForm monster = new MonsterForm();
             monster.setName(name);
             monster.setDescription(description);
             monster.setPrice(price);
             monster.setAge(age);
             monster.setLocation(location);
 
-            monsterClient.addMonster(monster);
+            adoptionClient.addMonster(monster);
             return Response.seeOther(uri).build();
         });
     }

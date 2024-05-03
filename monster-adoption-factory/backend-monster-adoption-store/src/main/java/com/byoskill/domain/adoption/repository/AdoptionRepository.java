@@ -1,7 +1,7 @@
 package com.byoskill.domain.adoption.repository;
 
 import com.byoskill.domain.adoption.model.Monster;
-import com.byoskill.domain.common.model.ChangeNameOperation;
+import com.byoskill.domain.common.ChangeNameOperation;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 

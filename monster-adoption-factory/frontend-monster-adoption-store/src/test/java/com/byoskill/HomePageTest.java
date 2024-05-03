@@ -1,7 +1,7 @@
 package com.byoskill;
 
 
-import com.byoskill.communication.client.CommunicationMessageService;
+import com.byoskill.communication.client.CommunicationMessageClient;
 import com.byoskill.communication.model.WelcomeMessage;
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,11 +23,11 @@ class HomePageTest {
     @Inject
     @InjectMock
     @RestClient
-    CommunicationMessageService communicationMessageService;
+    CommunicationMessageClient communicationMessageClient;
 
     @Test
     void testHelloEndpoint() {
-        when(communicationMessageService.getWelcomeMessage()).thenReturn(createFrom().item(new WelcomeMessage(DEFAULT_WELCOME_MESSAGE)));
+        when(communicationMessageClient.getWelcomeMessage()).thenReturn(createFrom().item(new WelcomeMessage(DEFAULT_WELCOME_MESSAGE)));
 
         given()
                 .when().get("/")

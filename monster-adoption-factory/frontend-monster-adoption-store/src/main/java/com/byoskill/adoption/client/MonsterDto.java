@@ -1,12 +1,11 @@
-package com.byoskill.domain.adoption.model;
+package com.byoskill.adoption.client;
 
-import com.byoskill.domain.common.HasName;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public class Monster implements HasName {
+public class MonsterDto {
     private Long id;
     private String monsterUUID;
 
@@ -33,7 +32,7 @@ public class Monster implements HasName {
     private String location;
     private Integer monsterId;
 
-    public Monster() {
+    public MonsterDto() {
     }
 
     public String getMonsterUUID() {
@@ -100,5 +99,17 @@ public class Monster implements HasName {
         this.location = location;
     }
 
-
+    @Override
+    public String toString() {
+        return "MonsterDto{" +
+                "id=" + id +
+                ", monsterUUID='" + monsterUUID + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", age=" + age +
+                ", location='" + location + '\'' +
+                ", monsterId=" + monsterId +
+                '}';
+    }
 }

@@ -65,48 +65,34 @@
 </head>
 
 <body>
-    <header>
-        <h1>Monster Adoption Platform</h1>
-        <h2>{motd}</h2>
-    </header>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Monsters</a>
-        <a href="/adoptions">Add a monster for adoptions</a>
-        <a href="#">Contact</a>
-    </nav>
-    <div class="container">
+<header>
+    <h1>Monster Adoption Platform</h1>
+    <h2>{motd}</h2>
+</header>
+<nav>
+    <a href="#">Home</a>
+    <a href="#">Monsters</a>
+    <a href="/adoptions">Add a monster for adoptions</a>
+    <a href="#">Contact</a>
+</nav>
+<div class="container">
+    {#for monster in monsters}
         <div class="product">
-            <img src="monster1.jpg" alt="Monster 1">
-            <div>
-                <h2>Monster 1</h2>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Price: $50</p>
-                <button>Adopt Now</button>
-            </div>
+        <img src="{monster.image_url}" alt="{monster.description}">
+        <div>
+        <h2>{monster.name}</h2>
+        <p>Description: {monster.description}</p>
+        <p>Location: {monster.location}</p>
+        <p>Age: {monster.age}</p>
+        <p>Price: {monster.price}</p>
+        <button>Adopt Now</button>
         </div>
-        <div class="product">
-            <img src="monster2.jpg" alt="Monster 2">
-            <div>
-                <h2>Monster 2</h2>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Price: $60</p>
-                <button>Adopt Now</button>
-            </div>
         </div>
-        <div class="product">
-            <img src="monster3.jpg" alt="Monster 3">
-            <div>
-                <h2>Monster 3</h2>
-                <p>Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p>Price: $70</p>
-                <button>Adopt Now</button>
-            </div>
-        </div>
-    </div>
-    <footer>
-        <p>&copy; 2024 Monster Adoption Platform. All rights reserved.</p>
-    </footer>
+    {/for}
+</div>
+<footer>
+    <p>&copy; 2024 Monster Adoption Platform. All rights reserved.</p>
+</footer>
 </body>
 
 </html>

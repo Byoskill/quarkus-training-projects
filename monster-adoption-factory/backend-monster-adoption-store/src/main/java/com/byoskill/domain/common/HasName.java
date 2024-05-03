@@ -1,4 +1,4 @@
-package com.byoskill.domain.common.model;
+package com.byoskill.domain.common;
 
 public interface HasName {
 

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class AdoptionMemoryRepository implements AdoptionRepository {
-    private static int counter;
+    private static long counter;
     private final List<Monster> monsters;
 
     public AdoptionMemoryRepository() {
@@ -67,7 +67,7 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
         if (null == uuid || null == monster) {
             return null;
         }
-        final Uni<Monster> promise = this.getMonsterByUuid(uuid);
+        final Uni<Monster> promise = getMonsterByUuid(uuid);
         return promise
                 .log()
                 // TIMEOUT
