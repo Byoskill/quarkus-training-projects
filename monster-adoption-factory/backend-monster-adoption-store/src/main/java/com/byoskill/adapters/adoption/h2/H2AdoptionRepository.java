@@ -54,7 +54,7 @@ public class H2AdoptionRepository implements AdoptionRepository {
     }
 
     @Override
-    public void deleteMonsterByUUID(final String uuid) {
+    public void deleteMonsterByUuid(final String uuid) {
         entityManager.createQuery("DELETE FROM MonsterEntity monster where monster.monsterUUID = :id");
         entityManager.flush();
     }

@@ -69,7 +69,7 @@ public class AdoptionResource {
     @Path("/{id}")
     @ResponseStatus(204)
     public void deleteMonsterById(@PathParam("id") final String id) {
-        monsterRepository.deleteMonsterByUUID(id);
+        monsterRepository.deleteMonsterByUuid(id);
     }
 
     @PUT

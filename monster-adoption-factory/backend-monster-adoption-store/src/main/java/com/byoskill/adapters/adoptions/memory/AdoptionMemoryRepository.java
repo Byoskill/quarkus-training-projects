@@ -57,7 +57,7 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
 
     @Logged
     @Override
-    public void deleteMonsterByUUID(final String id) {
+    public void deleteMonsterByUuid(final String id) {
         monsters.removeIf(m -> m.getMonsterUUID().equals(id));
     }
 
