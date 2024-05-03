@@ -1,4 +1,4 @@
-package com.byoskill.frontend.security;
+package com.byoskill.api.security;
 
 import jakarta.ws.rs.HttpMethod;
 import jakarta.ws.rs.container.ContainerRequestContext;

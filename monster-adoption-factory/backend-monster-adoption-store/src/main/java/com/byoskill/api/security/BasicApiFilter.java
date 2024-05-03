@@ -1,4 +1,4 @@
-package com.byoskill.frontend.security;
+package com.byoskill.api.security;
 
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;

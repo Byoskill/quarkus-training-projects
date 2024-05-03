@@ -47,20 +47,19 @@ public class AdoptionController {
             @FormParam("location") final String location,
             @Context final UriInfo uriInfo) {
 
-        LOGGER.info("Received new adoption request with the following details :" + name + ", " + description + ", "
-                + price + ", " + age + ", " + location);
+        LOGGER.info("Received new adoption request with the following details :%s, %s, %d, %d, %s".formatted(name, description, price, age, location));
 
         return Uni.createFrom().item(() -> {
-            final URI uri = uriInfo.getBaseUriBuilder().path("/").build();
-            final MonsterForm monster = new MonsterForm();
-            monster.setName(name);
-            monster.setDescription(description);
-            monster.setPrice(price);
-            monster.setAge(age);
-            monster.setLocation(location);
-
-            adoptionClient.addMonster(monster);
-            return Response.seeOther(uri).build();
-        });
+                    final URI uri = uriInfo.getBaseUriBuilder().path("/").build();
+                    final MonsterForm monster = new MonsterForm();
+                    monster.setName(name);
+                    monster.setDescription(description);
+                    monster.setPrice(price);
+                    monster.setAge(age);
+                    monster.setLocation(location);
+                    return monster;
+                })
+                .chain(monster -> adoptionClient.addMonster(monster))
+                .map(monster -> Response.seeOther(URI.create("/")).build());
     }
 }

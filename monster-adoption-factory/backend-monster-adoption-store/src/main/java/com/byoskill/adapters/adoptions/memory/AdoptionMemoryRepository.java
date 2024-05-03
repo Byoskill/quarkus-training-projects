@@ -1,11 +1,10 @@
 package com.byoskill.adapters.adoptions.memory;
 
+import com.byoskill.api.utils.Logged;
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
-import com.byoskill.frontend.utils.Logged;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
-import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-@ApplicationScoped
 public class AdoptionMemoryRepository implements AdoptionRepository {
     private static long counter;
     private final List<Monster> monsters;

@@ -1,4 +1,4 @@
-package com.byoskill.frontend.controllers;
+package com.byoskill.api.controllers;
 
 import com.byoskill.domain.adoption.model.Monster;
 

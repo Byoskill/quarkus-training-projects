@@ -1,8 +1,8 @@
-package com.byoskill.frontend.controllers;
+package com.byoskill.api.controllers;
 
+import com.byoskill.api.security.ApiFilter;
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
-import com.byoskill.frontend.security.ApiFilter;
 import io.smallrye.mutiny.Uni;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;

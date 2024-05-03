@@ -1,4 +1,4 @@
-package com.byoskill.frontend.controllers;
+package com.byoskill.api.controllers;
 
 import io.smallrye.mutiny.Uni;
 import jakarta.ws.rs.GET;

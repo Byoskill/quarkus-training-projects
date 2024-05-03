@@ -1,4 +1,4 @@
-package com.byoskill.frontend.utils;
+package com.byoskill.api.utils;
 
 import jakarta.annotation.Priority;
 import jakarta.inject.Inject;

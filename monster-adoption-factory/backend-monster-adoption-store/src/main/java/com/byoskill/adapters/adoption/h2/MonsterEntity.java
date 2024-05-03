@@ -21,7 +21,7 @@ public class MonsterEntity {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @Column(name = "description")
+    @Column(name = "monsterUUID")
     private String monsterUUID;
 
     @Column(name = "price")

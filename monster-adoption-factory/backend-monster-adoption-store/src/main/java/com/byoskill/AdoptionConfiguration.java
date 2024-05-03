@@ -4,7 +4,7 @@ import com.byoskill.adapters.adoption.h2.H2AdoptionRepository;
 import com.byoskill.adapters.adoptions.memory.AdoptionMemoryRepository;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
 import io.quarkus.arc.DefaultBean;
-import io.quarkus.arc.profile.IfBuildProfile;
+import io.quarkus.arc.properties.IfBuildProperty;
 import jakarta.enterprise.context.Dependent;
 import jakarta.enterprise.inject.Produces;
 import jakarta.persistence.EntityManager;
@@ -13,7 +13,7 @@ import jakarta.persistence.EntityManager;
 public class AdoptionConfiguration {
 
     @Produces
-    @IfBuildProfile("h2")
+    @IfBuildProperty(name = "com.byoskill.adoptions.adapter", stringValue = "h2")
     public AdoptionRepository H2AdoptionRepository(final EntityManager entityManager) {
         return new H2AdoptionRepository(entityManager);
     }
