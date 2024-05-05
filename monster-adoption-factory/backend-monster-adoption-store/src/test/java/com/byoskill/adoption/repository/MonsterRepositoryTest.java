@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @QuarkusTest
-public class MonsterRepositoryTest {
+class MonsterRepositoryTest {
 
     private static final Integer MONSTERS_IN_JSON = 10;
 
@@ -25,7 +25,11 @@ public class MonsterRepositoryTest {
         final Uni<List<Monster>> allMonstersP = monsterRepository.getAllMonsters().collect().asList();
         final var subscriber = allMonstersP.subscribe().withSubscriber(UniAssertSubscriber.create());
         final var sut = subscriber.assertCompleted();
-        Assertions.assertTrue(sut.getItem().stream().anyMatch(this.hasMonster("Dracula")), "Dracula is present");
+
+        final List<Monster> items = sut.getItem();
+        Assertions.assertFalse(items.isEmpty(), "We should have some monsters");
+        Assertions.assertTrue(items.stream().anyMatch(hasMonster("Dracula")), "Dracula is present");
+
 
     }
 

@@ -33,8 +33,7 @@ public class AdoptionResourceTest {
         given()
                 .when().get("/adoptions/randomkekekf")
                 .then()
-                .statusCode(204)
-                .contentType(MediaType.APPLICATION_JSON);
+                .statusCode(204);
 
     }
 

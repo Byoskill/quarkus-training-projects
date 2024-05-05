@@ -22,14 +22,16 @@ public class H2AdoptionRepository implements AdoptionRepository {
     }
 
     @Override
+
     public Multi<Monster> getAllMonsters() {
         final List<MonsterEntity> monsters = entityManager
-                .createQuery("SELECT monster from MonsterEntity monster")
+                .createQuery("SELECT monster from MonsterEntity monster", MonsterEntity.class)
                 .getResultList();
         return Multi.createFrom().items(monsters.stream()
                 .map(MonsterEntity::toModel)
         );
     }
+
 
     @Transactional
     @Override
@@ -39,6 +41,7 @@ public class H2AdoptionRepository implements AdoptionRepository {
         return Uni.createFrom().item(entity.toModel());
     }
 
+
     @Override
     public Uni<Monster> getMonsterByUuid(final String uuid) {
         final TypedQuery<MonsterEntity> query = entityManager.createQuery("SELECT monster from MonsterEntity monster where monster.monsterUUID = :id", MonsterEntity.class);
@@ -46,6 +49,7 @@ public class H2AdoptionRepository implements AdoptionRepository {
         final List<MonsterEntity> resultList = query.getResultList();
         return 1 == resultList.size() ? Uni.createFrom().item(resultList.get(0).toModel()) : Uni.createFrom().nullItem();
     }
+
 
     @Override
     public Multi<Monster> searchMonstersByName(final String name) {
@@ -57,12 +61,14 @@ public class H2AdoptionRepository implements AdoptionRepository {
         );
     }
 
+
     @Transactional
     @Override
     public void deleteMonsterByUuid(final String uuid) {
         entityManager.createQuery("DELETE FROM MonsterEntity monster where monster.monsterUUID = :id");
         entityManager.flush();
     }
+
 
     @Transactional
     @Override
@@ -86,9 +92,9 @@ public class H2AdoptionRepository implements AdoptionRepository {
                 .setParameter("price", monster.getPrice())
                 .executeUpdate();
 
-        entityManager.flush();
         return Uni.createFrom().item(monster);
     }
+
 
     @Override
     public Multi<Monster> searchMonstersByAge(final Integer age) {
@@ -99,6 +105,7 @@ public class H2AdoptionRepository implements AdoptionRepository {
                 .map(MonsterEntity::toModel)
         );
     }
+
 
     @Transactional
     @Override
@@ -113,7 +120,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
                 .ifNoItem().after(Duration.ofMillis(500)).fail()
                 .onItem().invoke(updatedMonster -> {
                     entityManager.merge(updatedMonster);
-                    entityManager.flush();
                 });
     }
 }

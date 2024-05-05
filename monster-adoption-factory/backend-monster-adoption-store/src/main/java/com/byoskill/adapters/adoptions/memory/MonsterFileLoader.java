@@ -20,13 +20,13 @@ import java.util.stream.Stream;
 public class MonsterFileLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonsterFileLoader.class);
-
-    public void initLoad(@Observes StartupEvent event,
-                         AdoptionRepository monsterRepository,
-                         @ConfigProperty(name = "backend.file.monsters") String jsonFileName) throws IOException {
-        File monsterFileName = new File(jsonFileName);
+    
+    public void initLoad(@Observes final StartupEvent event,
+                         final AdoptionRepository monsterRepository,
+                         @ConfigProperty(name = "backend.file.monsters") final String jsonFileName) throws IOException {
+        final File monsterFileName = new File(jsonFileName);
         LOGGER.info("Loading default monster list from {}", monsterFileName.getAbsolutePath());
-        MonsterList monsters = new ObjectMapper().readValue(monsterFileName, new TypeReference<MonsterList>() {
+        final MonsterList monsters = new ObjectMapper().readValue(monsterFileName, new TypeReference<MonsterList>() {
         });
         monsters.stream().forEach(monster -> monsterRepository.addMonsterToAdopt(monster).await().indefinitely());
         LOGGER.info("Monsters loaded successfully");
