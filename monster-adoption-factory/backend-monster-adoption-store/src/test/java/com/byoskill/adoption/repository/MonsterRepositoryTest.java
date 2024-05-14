@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 @QuarkusTest
@@ -35,6 +36,17 @@ class MonsterRepositoryTest {
 
     private Predicate<? super Monster> hasMonster(final String string) {
         return (m) -> m.getName().equals(string);
+    }
+
+    @Test
+    void testSearchMonsterByName() {
+        final Uni<List<Monster>> monstersWithDraculaName = monsterRepository.searchMonstersByName("Dracula", Optional.of(10)).collect().asList();
+        final var subscriber = monstersWithDraculaName.subscribe().withSubscriber(UniAssertSubscriber.create());
+        final var sut = subscriber.assertCompleted();
+
+        final List<Monster> items = sut.getItem();
+        Assertions.assertFalse(items.isEmpty(), "We should have one monsters");
+        Assertions.assertTrue(items.stream().anyMatch(hasMonster("Dracula")), "Dracula is present");
     }
 
 }

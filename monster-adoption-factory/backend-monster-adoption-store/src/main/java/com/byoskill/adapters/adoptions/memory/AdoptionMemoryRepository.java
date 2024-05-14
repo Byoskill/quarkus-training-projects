@@ -3,15 +3,16 @@ package com.byoskill.adapters.adoptions.memory;
 import com.byoskill.api.utils.Logged;
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
+import io.quarkus.arc.DefaultBean;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
+@ApplicationScoped
+@DefaultBean
 public class AdoptionMemoryRepository implements AdoptionRepository {
     private static long counter;
     private final List<Monster> monsters;
@@ -49,8 +50,13 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
 
     @Logged
     @Override
-    public Multi<Monster> searchMonstersByName(final String name) {
-        return Multi.createFrom().items(monsters.stream().filter(m -> m.getName().contains(name)));
+    public Multi<Monster> searchMonstersByName(final String pattern, final Optional<Integer> size) {
+        return Multi.createFrom().items(monsters.stream().filter(m -> m.getName().contains(pattern)).limit(size.orElse(10)));
+    }
+
+    @Override
+    public Multi<Monster> searchMonstersByDescription(final String pattern, final Optional<Integer> size) {
+        return Multi.createFrom().items(monsters.stream().filter(m -> m.getDescription().contains(pattern)).limit(size.orElse(10)));
     }
 
     @Logged

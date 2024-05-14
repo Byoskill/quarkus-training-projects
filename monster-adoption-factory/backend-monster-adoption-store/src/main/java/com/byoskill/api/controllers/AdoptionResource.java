@@ -11,6 +11,8 @@ import jakarta.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.jboss.resteasy.reactive.ResponseStatus;
 
+import java.util.Optional;
+
 @Path("/adoptions")
 @Produces(MediaType.APPLICATION_JSON)
 public class AdoptionResource {
@@ -59,8 +61,11 @@ public class AdoptionResource {
 
     @GET
     @Path("/search/{name}")
-    public Uni<MonsterView> searchMonstersByName(@PathParam("name") @DefaultValue("*") final String name) {
-        return monsterRepository.searchMonstersByName(name).collect().asList().map(MonsterView::new);
+    public Uni<MonsterView> searchMonstersByName(@PathParam("name") @DefaultValue("*") final String name, @QueryParam("size") @DefaultValue("10") final Optional<Integer> size) {
+        return monsterRepository.searchMonstersByName(name, size)
+                .collect()
+                .asList()
+                .map(MonsterView::new);
     }
 
     @POST

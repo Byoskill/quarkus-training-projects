@@ -2,27 +2,38 @@ package com.byoskill.adapters.adoption.h2;
 
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
+import io.quarkus.arc.profile.IfBuildProfile;
+import io.quarkus.runtime.StartupEvent;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
-import jakarta.inject.Inject;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Observes;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import org.hibernate.search.mapper.orm.mapping.SearchMapping;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+@ApplicationScoped
+@IfBuildProfile(anyOf = "h2")
 public class H2AdoptionRepository implements AdoptionRepository {
 
     private final EntityManager entityManager;
+    private final SearchSession searchSession;
+    private final SearchMapping searchMapping;
 
-    @Inject
-    public H2AdoptionRepository(final EntityManager entityManager) {
+    public H2AdoptionRepository(final EntityManager entityManager, final SearchSession searchSession, final SearchMapping searchMapping) {
         this.entityManager = entityManager;
+        this.searchSession = searchSession;
+        this.searchMapping = searchMapping;
     }
 
     @Override
-
     public Multi<Monster> getAllMonsters() {
         final List<MonsterEntity> monsters = entityManager
                 .createQuery("SELECT monster from MonsterEntity monster", MonsterEntity.class)
@@ -32,7 +43,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
         );
     }
 
-
     @Transactional
     @Override
     public Uni<Monster> addMonsterToAdopt(final Monster monster) {
@@ -40,7 +50,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
         entityManager.persist(entity);
         return Uni.createFrom().item(entity.toModel());
     }
-
 
     @Override
     public Uni<Monster> getMonsterByUuid(final String uuid) {
@@ -50,17 +59,39 @@ public class H2AdoptionRepository implements AdoptionRepository {
         return 1 == resultList.size() ? Uni.createFrom().item(resultList.get(0).toModel()) : Uni.createFrom().nullItem();
     }
 
-
     @Override
-    public Multi<Monster> searchMonstersByName(final String name) {
-        final TypedQuery<MonsterEntity> query = entityManager.createQuery("SELECT monster from MonsterEntity monster where monster.name = :name", MonsterEntity.class);
-        query.setParameter("name", name);
-        final List<MonsterEntity> resultList = query.getResultList();
-        return Multi.createFrom().items(resultList.stream()
+    public Multi<Monster> searchMonstersByName(final String pattern, final Optional<Integer> size) {
+        return Multi.createFrom().iterable(searchSession.search(MonsterEntity.class)
+                .where(f ->
+                        null == pattern || pattern.trim().isEmpty() ?
+                                f.matchAll() :
+                                f.simpleQueryString()
+                                        .fields("name").matching(pattern)
+                )
+                .fetchHits(size.orElse(20))
+                .stream()
                 .map(MonsterEntity::toModel)
+                .collect(Collectors.toList())
         );
     }
 
+    @Transactional
+    @Override
+    public Multi<Monster> searchMonstersByDescription(final String pattern,
+                                                      final Optional<Integer> size) {
+        return Multi.createFrom().iterable(searchSession.search(MonsterEntity.class)
+                .where(f ->
+                        null == pattern || pattern.trim().isEmpty() ?
+                                f.matchAll() :
+                                f.simpleQueryString()
+                                        .fields("description").matching(pattern)
+                )
+                .fetchHits(size.orElse(20))
+                .stream()
+                .map(MonsterEntity::toModel)
+                .collect(Collectors.toList())
+        );
+    }
 
     @Transactional
     @Override
@@ -68,7 +99,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
         entityManager.createQuery("DELETE FROM MonsterEntity monster where monster.monsterUUID = :id");
         entityManager.flush();
     }
-
 
     @Transactional
     @Override
@@ -95,7 +125,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
         return Uni.createFrom().item(monster);
     }
 
-
     @Override
     public Multi<Monster> searchMonstersByAge(final Integer age) {
         final TypedQuery<MonsterEntity> query = entityManager.createQuery("SELECT monster from MonsterEntity monster where monster.age = :age", MonsterEntity.class);
@@ -105,7 +134,6 @@ public class H2AdoptionRepository implements AdoptionRepository {
                 .map(MonsterEntity::toModel)
         );
     }
-
 
     @Transactional
     @Override
@@ -121,5 +149,19 @@ public class H2AdoptionRepository implements AdoptionRepository {
                 .onItem().invoke(updatedMonster -> {
                     entityManager.merge(updatedMonster);
                 });
+    }
+
+    void onStart(@Observes final StartupEvent ev) throws InterruptedException {
+        // only reindex if we imported some content
+        if (0 < count()) {
+            searchMapping.scope(Object.class)
+                    .massIndexer()
+                    .startAndWait();
+        }
+    }
+
+    public Long count() {
+        return (Long) entityManager.createQuery("SELECT COUNT(t) FROM MonsterEntity t")
+                .getSingleResult();
     }
 }

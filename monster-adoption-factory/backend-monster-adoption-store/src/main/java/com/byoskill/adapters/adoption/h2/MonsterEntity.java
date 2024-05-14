@@ -2,9 +2,12 @@ package com.byoskill.adapters.adoption.h2;
 
 import com.byoskill.domain.adoption.model.Monster;
 import jakarta.persistence.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 
 @Entity
+@Indexed
 @Table(name = "monsters")
 public class MonsterEntity {
 
@@ -12,9 +15,11 @@ public class MonsterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @FullTextField(analyzer = "english")
     @Column(name = "name")
     private String name;
 
+    @FullTextField(analyzer = "english")
     @Column(name = "description")
     private String description;
 
