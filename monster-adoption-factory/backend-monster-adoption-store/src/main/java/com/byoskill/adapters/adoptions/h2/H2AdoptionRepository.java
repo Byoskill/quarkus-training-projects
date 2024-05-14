@@ -1,4 +1,4 @@
-package com.byoskill.adapters.adoption.h2;
+package com.byoskill.adapters.adoptions.h2;
 
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
