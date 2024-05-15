@@ -1,10 +1,12 @@
 package com.byoskill.adapters.adoptions.postgresql;
 
+import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.flywaydb.core.Flyway;
 
+@IfBuildProfile(anyOf = "prod")
 @ApplicationScoped
 public class MigrationService {
     // Vous pouvez injecter l'objet si vous voulez l'utiliser manuellement
