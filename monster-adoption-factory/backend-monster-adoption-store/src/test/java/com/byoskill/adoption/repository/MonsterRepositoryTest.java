@@ -3,7 +3,9 @@ package com.byoskill.adoption.repository;
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
 import io.quarkus.test.junit.QuarkusTest;
+import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.helpers.test.AssertSubscriber;
 import io.smallrye.mutiny.helpers.test.UniAssertSubscriber;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
@@ -45,8 +47,19 @@ class MonsterRepositoryTest {
         final var sut = subscriber.assertCompleted();
 
         final List<Monster> items = sut.getItem();
-        Assertions.assertFalse(items.isEmpty(), "We should have one monsters");
+        Assertions.assertFalse(items.isEmpty(), "We should have one monster");
         Assertions.assertTrue(items.stream().anyMatch(hasMonster("Dracula")), "Dracula is present");
+    }
+
+
+    @Test
+    void testgetAnyMonsters() {
+        final Multi<Monster> monsters = monsterRepository.getAllMonsters();
+        final var subscriber = monsters.subscribe().withSubscriber(AssertSubscriber.create());
+        final var sut = subscriber.awaitItems(1);
+
+        final List<Monster> items = sut.getItems();
+        Assertions.assertFalse(items.isEmpty(), "We should have one monster");
     }
 
 }
