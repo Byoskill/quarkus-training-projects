@@ -18,17 +18,17 @@ import java.util.Optional;
 public class AdoptionResource {
 
     @Inject
-    AdoptionRepository monsterRepository;
+    AdoptionRepository adoptionRepository;
 
     @Blocking
     @GET
     public Uni<MonsterView> getAllMonsters() {
 
-        return monsterRepository.getAllMonsters()
-                .log("getAllMonsters")
-                .collect()
-                .asList()
-                .map(MonsterView::new);
+        return adoptionRepository.getAllMonsters()
+                                 .log("getAllMonsters")
+                                 .collect()
+                                 .asList()
+                                 .map(MonsterView::new);
     }
 
     @Blocking
@@ -36,70 +36,79 @@ public class AdoptionResource {
     @Path("/monsters")
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Uni<MonsterView> getAllMonsters2() {
-        return monsterRepository.getAllMonsters()
-                .log("getAllMonsters")
-                .collect()
-                .asList()
-                .map(MonsterView::new);
+        return adoptionRepository.getAllMonsters()
+                                 .log("getAllMonsters")
+                                 .collect()
+                                 .asList()
+                                 .map(MonsterView::new);
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/search/id/{id}")
     public Uni<Monster> getMonsterByUuid(@PathParam("id") final String id) {
-        return monsterRepository.getMonsterByUuid(id);
+        return adoptionRepository.getMonsterByUuid(id);
     }
 
     @GET
-    @Path("/adoptions/available")
+    @Path("/available")
     public Uni<MonsterView> getAvailableMonsters() {
-        return monsterRepository.getAllMonsters()
-                .log("getAvailableMonsters")
-                .collect()
-                .asList()
-                .map(MonsterView::new);
+        return adoptionRepository.getAllMonsters()
+                                 .log("getAvailableMonsters")
+                                 .collect()
+                                 .asList()
+                                 .map(MonsterView::new);
     }
 
     @GET
-    @Path("/search/{name}")
+    @Path("/search/name/{name}")
     public Uni<MonsterView> searchMonstersByName(@PathParam("name") @DefaultValue("*") final String name, @QueryParam("size") @DefaultValue("10") final Optional<Integer> size) {
-        return monsterRepository.searchMonstersByName(name, size)
-                .collect()
-                .asList()
-                .map(MonsterView::new);
+        return adoptionRepository.searchMonstersByName(name, size)
+                                 .collect()
+                                 .asList()
+                                 .map(MonsterView::new);
     }
-
+    
+    @Path("/{id}")
+    @ResponseStatus(204)
     @POST
-    public Uni<Monster> createMonster(final Monster monster) {
-        return monsterRepository.addMonsterToAdopt(monster);
+    public void adoptMonster(@PathParam("id") final String id) {
+        adoptionRepository.adoptMonster(id);
+    }
+    
+    
+    @POST
+    public Uni<Monster> createMonster(@RequestBody final Monster monster) {
+        return adoptionRepository.addMonsterToAdopt(monster);
     }
 
     @DELETE
     @Path("/{id}")
     @ResponseStatus(204)
     public void deleteMonsterById(@PathParam("id") final String id) {
-        monsterRepository.deleteMonsterByUuid(id);
+        adoptionRepository.deleteMonsterByUuid(id);
     }
 
     @PUT
     @Path("/{id}")
     public Uni<Monster> updateMonsterById(@PathParam("id") final String id, @RequestBody final Monster monster) {
-        return monsterRepository.updateMonsterByUUID(id, monster);
+        return adoptionRepository.updateMonsterByUUID(id, monster);
     }
 
     @GET
     @Path("/search/age/{age}")
     public Uni<MonsterView> searchMonstersByAge(@PathParam("age") @DefaultValue("0") final String age) {
-        return monsterRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
+        return adoptionRepository.searchMonstersByAge(Integer.parseInt(age)).collect().asList().map(MonsterView::new);
     }
 
     @ApiFilter
     @POST
     @Path("/{id}/name")
     public Uni<Monster> changeName(@PathParam("id") final String id, @QueryParam("name") final String name) {
-        return monsterRepository.getMonsterByUuid(id)
-                .log("findByUuid")
-                .onItem().ifNull().failWith(new WebApplicationException("Monster not found", 404))
-                .call(monster -> monsterRepository.changeName(monster, name));
+        return adoptionRepository.getMonsterByUuid(id)
+                                 .log("findByUuid")
+                                 .onItem().ifNull().failWith(new WebApplicationException("Monster not found", 404))
+                                 .call(monster -> adoptionRepository.changeName(monster, name));
     }
-
+    
+    
 }

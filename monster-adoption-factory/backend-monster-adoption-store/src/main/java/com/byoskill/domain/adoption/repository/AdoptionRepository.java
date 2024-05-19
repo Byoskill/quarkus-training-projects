@@ -27,5 +27,10 @@ public interface AdoptionRepository extends ChangeNameOperation<Monster> {
     Uni<Monster> updateMonsterByUUID(String id, Monster monster);
 
     Multi<Monster> searchMonstersByAge(Integer age);
-
+    
+    /**
+     * This method is used to notify that a monster have been adopted.
+     * @param monsterId the monster UUID
+     */
+    void adoptMonster(String monsterId);
 }
