@@ -116,6 +116,11 @@ public class FirestoreAdoptionRepository implements AdoptionRepository {
     }
 
     @Override
+    public Uni<Monster> adoptMonster(String monsterId) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Uni<Monster> changeName(final Monster entityToBeUpdated, final String newName) {
         final CollectionReference monsters = firestore.collection("monsters");
         final ApiFuture<WriteResult> updated = monsters.document(entityToBeUpdated.getMonsterUUID()).update("name", newName);

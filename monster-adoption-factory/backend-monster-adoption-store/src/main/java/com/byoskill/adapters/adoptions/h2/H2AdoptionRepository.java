@@ -164,4 +164,14 @@ public class H2AdoptionRepository implements AdoptionRepository {
         return (Long) entityManager.createQuery("SELECT COUNT(t) FROM MonsterEntity t")
                 .getSingleResult();
     }
+
+    @Override
+    public Uni<Monster> adoptMonster(String monsterId) {
+        Uni<Monster> monsterByUuid = getMonsterByUuid(monsterId);
+        return monsterByUuid.flatMap(monster -> {
+            deleteMonsterByUuid(monsterId);
+            return Uni.createFrom().item(monster);
+        });
+    }
+
 }

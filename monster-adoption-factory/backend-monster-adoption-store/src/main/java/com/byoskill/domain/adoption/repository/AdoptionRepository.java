@@ -32,5 +32,5 @@ public interface AdoptionRepository extends ChangeNameOperation<Monster> {
      * This method is used to notify that a monster have been adopted.
      * @param monsterId the monster UUID
      */
-    void adoptMonster(String monsterId);
+    Uni<Monster> adoptMonster(String monsterId);
 }

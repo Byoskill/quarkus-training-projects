@@ -68,7 +68,7 @@ public class AdoptionResource {
                                  .map(MonsterView::new);
     }
     
-    @Path("/{id}")
+    @Path("/apply/{id}")
     @ResponseStatus(204)
     @POST
     public void adoptMonster(@PathParam("id") final String id) {

@@ -100,6 +100,15 @@ public class AdoptionMemoryRepository implements AdoptionRepository {
     }
 
     @Override
+    public Uni<Monster> adoptMonster(String monsterId) {
+        Uni<Monster> monsterByUuid = getMonsterByUuid(monsterId);
+        return monsterByUuid.flatMap(monster -> {
+            deleteMonsterByUuid(monsterId);
+            return Uni.createFrom().item(monster);
+        });
+    }
+
+    @Override
     public Uni<Monster> changeName(final Monster monsterToBeUpdated, final String newName) {
         monsterToBeUpdated.setName(newName);
         return Uni.createFrom().item(monsterToBeUpdated);
