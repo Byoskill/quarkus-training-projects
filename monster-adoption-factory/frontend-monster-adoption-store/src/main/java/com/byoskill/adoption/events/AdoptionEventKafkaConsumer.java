@@ -1,17 +1,13 @@
 package com.byoskill.adoption.events;
 
-import io.quarkus.arc.profile.IfBuildProfile;
 import io.smallrye.reactive.messaging.annotations.Blocking;
 import io.vertx.core.json.JsonObject;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.Vetoed;
 import jakarta.inject.Inject;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
 
-@IfBuildProfile(anyOf = "rabbitmq")
 @ApplicationScoped
-@Vetoed
-public class AdoptionEventRabbitMQConsumer {
+public class AdoptionEventKafkaConsumer {
 
     @Inject
     AdoptionService adoptionService;
