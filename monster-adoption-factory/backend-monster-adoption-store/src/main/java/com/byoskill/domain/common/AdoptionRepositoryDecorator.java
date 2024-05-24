@@ -1,6 +1,6 @@
 package com.byoskill.domain.common;
 
-import com.byoskill.adapters.adoptions.rabbitmq.RabbitMqAdoptionEventProducer;
+import com.byoskill.domain.adoption.events.AdoptionEventProducer;
 import com.byoskill.domain.adoption.model.Monster;
 import com.byoskill.domain.adoption.repository.AdoptionRepository;
 import io.smallrye.mutiny.Multi;
@@ -22,7 +22,7 @@ public class AdoptionRepositoryDecorator implements AdoptionRepository {
     AdoptionRepository delegate;
 
     @Inject
-    RabbitMqAdoptionEventProducer eventProducer;
+    AdoptionEventProducer eventProducer;
 
     @Override
     public Multi<Monster> getAllMonsters() {
@@ -43,7 +43,7 @@ public class AdoptionRepositoryDecorator implements AdoptionRepository {
 
     @Override
     public Uni<Monster> getMonsterByUuid(String id) {
-        return getMonsterByUuid(id);
+        return delegate.getMonsterByUuid(id);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AdoptionRepositoryDecorator implements AdoptionRepository {
 
     @Override
     public Multi<Monster> searchMonstersByDescription(String pattern, Optional<Integer> size) {
-        return null;
+        return delegate.searchMonstersByDescription(pattern, size);
     }
 
     @Override

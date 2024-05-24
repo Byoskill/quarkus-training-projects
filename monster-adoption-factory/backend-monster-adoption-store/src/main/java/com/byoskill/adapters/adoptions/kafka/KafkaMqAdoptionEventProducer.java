@@ -1,8 +1,9 @@
 package com.byoskill.adapters.adoptions.kafka;
 
 
-import com.byoskill.domain.adoption.AdoptionEventProducer;
 import com.byoskill.domain.adoption.events.AdoptionEvent;
+import com.byoskill.domain.adoption.events.AdoptionEventProducer;
+
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;

@@ -1,8 +1,9 @@
 package com.byoskill.adapters.adoptions.rabbitmq;
 
 
-import com.byoskill.domain.adoption.AdoptionEventProducer;
 import com.byoskill.domain.adoption.events.AdoptionEvent;
+import com.byoskill.domain.adoption.events.AdoptionEventProducer;
+
 import io.quarkus.arc.profile.IfBuildProfile;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.inject.Vetoed;

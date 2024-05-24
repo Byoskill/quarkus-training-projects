@@ -1,4 +1,4 @@
-package com.byoskill.domain.adoption;
+package com.byoskill.domain.adoption.events;
 
 public interface AdoptionEventProducer {
     public void sendAdoptionAvailableEvent(String message);
