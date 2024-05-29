@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 @QuarkusTest
-class MonsterRepositoryTest {
+class AdoptionRepositoryTest {
 
     private static final Integer MONSTERS_IN_JSON = 10;
 
@@ -24,7 +24,7 @@ class MonsterRepositoryTest {
     AdoptionRepository monsterRepository;
 
     @Test
-    void tetIntegrationMonsterRepository() {
+    void testIntegrationMonsterRepository() {
         final Uni<List<Monster>> allMonstersP = monsterRepository.getAllMonsters().collect().asList();
         final var subscriber = allMonstersP.subscribe().withSubscriber(UniAssertSubscriber.create());
         final var sut = subscriber.assertCompleted();
