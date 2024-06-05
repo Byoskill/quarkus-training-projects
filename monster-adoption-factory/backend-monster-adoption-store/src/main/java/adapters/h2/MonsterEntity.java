@@ -10,7 +10,7 @@ public class MonsterEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -42,7 +42,7 @@ public class MonsterEntity {
 
     public static MonsterEntity fromModel(final Monster monster) {
         final MonsterEntity monsterEntity = new MonsterEntity();
-        monsterEntity.id = monster.getId();
+        monsterEntity.id = monster.getId().longValue();
         monsterEntity.name = monster.getName();
         monsterEntity.description = monster.getDescription();
         monsterEntity.monsterUUID = monster.getMonsterUUID();
@@ -56,7 +56,7 @@ public class MonsterEntity {
 
     public Monster toModel() {
         final Monster monster = new Monster();
-        monster.setId(id);
+        monster.setId(Math.toIntExact(id));
         monster.setName(name);
         monster.setDescription(description);
 
@@ -69,11 +69,11 @@ public class MonsterEntity {
         return monster;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(final Integer id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
