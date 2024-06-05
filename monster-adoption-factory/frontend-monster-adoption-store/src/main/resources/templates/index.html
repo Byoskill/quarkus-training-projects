@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+    <title>Monster Adoption Platform</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            background-color: #444;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px 0;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Monster Adoption Platform</h1>
+</header>
+<nav>
+    <a href="#">Home</a>
+    <a href="/adoptions">Adoptions</a>
+    <a href="#">About Us</a>
+    <a href="#">Contact</a>
+</nav>
+<div class="container">
+    <div class="bienvenue justify-center text-center">
+        <h2>{motd}</h2>
+    </div>
+    {#for monster in monsters}
+    <div class="product">
+        <img src="{monster.url}" alt="{monster.name}">
+        <div>
+            <h2>{monster.name}</h2>
+            <p>Description: {monster.description}</p>
+            <p>Price: ${monster.price}</p>
+            <a href="/adopt/{monster.id}" class="btn btn-primary">Adopt Now</a>
+        </div>
+    </div>
+    {/for}
+
+</div>
+<footer>
+    <p>&copy; 2024 Monster Adoption Platform. All rights reserved.</p>
+</footer>
+</body>
+</html>
